@@ -1,0 +1,360 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --rosa-principal: #ff69b4;
+    --rosa-claro: #ffe6f2;
+    --rosa-fondo: #ffccf2;
+    --fondo-suave: #fefefe;
+    --texto: #444;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #ffe6f2, #ffccf2, #ffb3d9);
+    background-size: 400% 400%;
+    animation: fondoAnimado 15s ease infinite;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Fondo que cambia suavemente de color */
+@keyframes fondoAnimado {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Decoración de fondo flotante */
+body::before,
+body::after,
+.decoracion-fondo span {
+    content: '';
+    position: absolute;
+    font-size: 2.5rem;
+    opacity: 0.15;
+    animation: flotar 8s ease-in-out infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes flotar {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(10deg); }
+}
+
+/* Posiciones de las decoraciones del fondo */
+.decoracion-fondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.decoracion-fondo span {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.12;
+    animation: flotar 6s ease-in-out infinite;
+}
+/* --- PANTALLA DE INICIO --- */
+.pantalla-inicio {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, var(--rosa-claro), var(--rosa-fondo));
+    z-index: 10;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.pantalla-inicio.ocultar {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(1.1);
+}
+
+.mensaje-inicio {
+    color: var(--rosa-principal);
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    animation: latido 1.5s infinite;
+}
+
+.boton-abrir {
+    padding: 1rem 2.5rem;
+    font-size: 1.3rem;
+    background: var(--rosa-principal);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+    transition: all 0.3s ease;
+}
+
+.boton-abrir:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.6);
+}
+
+@keyframes latido {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* --- MENSAJE ANIMADO --- */
+.contenido-principal {
+    opacity: 0;
+    transform: translateY(30px);
+    padding: 2rem;
+    text-align: center;
+    transition: all 1s ease 0.3s;
+}
+
+.contenido-principal.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.titulo-principal {
+    color: var(--rosa-principal);
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 1rem 0 2rem;
+    opacity: 0;
+    animation: aparecer 1s ease forwards;
+}
+
+h1 {
+    color: var(--rosa-principal);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    opacity: 0;
+    animation: aparecer 1s ease forwards 0.5s;
+}
+
+.mensaje-carta {
+    font-size: 1.2rem;
+    color: var(--texto);
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    line-height: 1.8;
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(255, 105, 180, 0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: aparecerDesplazado 1s ease forwards 0.8s;
+}
+
+@keyframes aparecer {
+    to { opacity: 1; }
+}
+
+@keyframes aparecerDesplazado {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sobre {
+    position: relative;
+    width: 320px;
+    height: 200px;
+    background: #fff;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    opacity: 0;
+    animation: aparecer 1s ease forwards 1.2s;
+}
+
+.solapa-superior {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(180deg, #ff99cc, #ff80b3);
+    clip-path: polygon(0 0, 50% 50%, 100% 0);
+    transform-origin: top;
+    transition: transform 1s ease 1.5s;
+}
+
+.sobre.abierto .solapa-superior {
+    transform: rotateX(180deg);
+}
+
+.solapa-izquierda, .solapa-derecha {
+    position: absolute;
+    bottom: 0;
+    width: 50%;
+    height: 100px;
+    background: #ffb3d1;
+}
+
+.solapa-izquierda { left: 0; clip-path: polygon(0 0, 100% 100%, 0 100%); }
+.solapa-derecha { right: 0; clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+
+.solapa-inferior {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: #ffccd9;
+    border-radius: 0 0 10px 10px;
+}
+
+.carta-interior {
+    position: absolute;
+    bottom: -60px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    font-size: 1.5rem;
+    opacity: 0;
+    transition: all 0.8s ease 2s;
+}
+
+.sobre.abierto .carta-interior {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.decoracion-final {
+    font-size: 2rem;
+    margin-top: 4rem;
+    opacity: 0;
+    animation: aparecer 1s ease forwards 2.5s;
+}
+
+/* --- CONFETI --- */
+.confeti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    opacity: 0.8;
+    top: -10px;
+}
+
+@keyframes caer {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* --- LLUVIA DE CORAZONES Y ROSAS --- */
+.lluvia-rosas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 8;
+    overflow: hidden;
+}
+
+.corazon-caida,
+.rosa-caida {
+    position: absolute;
+    top: -50px;
+    font-size: 1.5rem;
+    animation: caerElemento 4s linear forwards;
+    opacity: 0.9;
+}
+
+.rosa-caida {
+    font-size: 1.3rem;
+    animation-duration: 5s;
+}
+
+@keyframes caerElemento {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+/* Destellos brillantes */
+.destellos {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.destellos span {
+    position: absolute;
+    color: #fff;
+    font-size: 1.2rem;
+    animation: brillar 3s ease-in-out infinite;
+    opacity: 0;
+}
+
+@keyframes brillar {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 0.6; transform: scale(1.2); }
+}
+/* === VIDEO DE FONDO === */
+#videoFondo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover; 
+    z-index: -2;
+    opacity: 0.35;
+    pointer-events: none; 
+}
+
+/* Pantalla de inicio — Asegurarse de que está por encima */
+.pantalla-inicio {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 5; 
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenido principal */
+.contenido-principal {
+    position: relative;
+    z-index: 3;
+    min-height: 100vh;
+    padding: 2rem;
+}
